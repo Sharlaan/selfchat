@@ -15,8 +15,19 @@ class Actions extends Component {
 
   handleChange = (event, message) => this.setState({ message })
 
+  handleKeyStrokes = ({ key, ctrlKey }) => {
+    switch (key) {
+      case 'Enter':
+        if (ctrlKey) this.send()
+        break
+      // TODO: Add emoticons
+      default: break
+    }
+  }
+
   // TODO: /!\ escape dangerous characters !
   send = () => {
+    if (!this.state.message.length) return
     this.props.send(this.state.message)
     this.reset()
   }
@@ -29,13 +40,18 @@ class Actions extends Component {
           name='Textfield'
           floatingLabelText='Message'
           multiLine
+          rows={3}
+          rowsMax={3}
           value={this.state.message}
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyStrokes}
+          floatingLabelFocusStyle={{ color: teal100 }}
+          underlineFocusStyle={{ borderColor: teal100 }}
           style={{ flex: 1, marginRight: 20 }}
         />
 
         <IconButton
-          tooltip='Envoyer'
+          tooltip={<span>Envoyer<br/>(CTRL + ENTER)</span>}
           onTouchTap={this.send}
           hoveredStyle={{ backgroundColor: teal100 }}
         >

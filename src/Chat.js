@@ -4,6 +4,10 @@ import MessagesContainer from './MessagesContainer'
 import Actions from './Actions'
 import moment from 'moment/moment'
 import fr from 'moment/locale/fr' // eslint-disable-line
+/* eslint-disable object-property-newline */
+const style = { width: 400, padding: '0 20px 20px', margin: '0 10px',
+  display: 'flex', flexDirection: 'column', marginBottom: 40 }
+/* eslint-enable object-property-newline */
 
 function Chat ({ title, messages, send }) {
   const handleSend = messageContent => {
@@ -15,7 +19,7 @@ function Chat ({ title, messages, send }) {
   }
 
   return (
-    <Paper style={{ padding: '0 20px 20px', display: 'flex', flexDirection: 'column', marginBottom: 40 }}>
+    <Paper style={style}>
       <h3>{title}</h3>
 
       <MessagesContainer messages={messages} />

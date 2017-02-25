@@ -1,6 +1,6 @@
 {
   "name": "selfchat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Some weird tchat to message self.",
   "private": false,
   "author": "Raphaël Morineau <raphael.morineau@gmail.com>",
@@ -37,7 +37,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "npm run build",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
