@@ -4,11 +4,11 @@ import { blueGrey500, blueGrey700, lightBlue500, deepOrange400 } from 'material-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import injectTapEventPlugin from 'react-tap-event-plugin'
-injectTapEventPlugin()
-
 import App from './App'
 import './index.css'
+
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
 
 const customTheme = getMuiTheme({
   fontFamily: 'Raleway, sans-serif',
