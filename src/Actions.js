@@ -1,66 +1,87 @@
-import React, { Component, PropTypes } from 'react'
-import TextField from 'material-ui/TextField/TextField'
-import IconButton from 'material-ui/IconButton'
-import SendSVG from 'material-ui/svg-icons/content/send'
-import { teal100 } from 'material-ui/styles/colors'
+import teal from '@material-ui/core/colors/teal';
+import IconButtonBase from '@material-ui/core/IconButton';
+import TextFieldBase from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import SendIcon from '@material-ui/icons/Send';
+import { makeStyles, withStyles } from '@material-ui/styles';
+import React, { useState } from 'react';
 
-class Actions extends Component {
-  static propTypes = {
-    send: PropTypes.func
-  }
+const useStyles = makeStyles({
+  main: { display: 'flex', alignItems: 'center' },
+});
 
-  state = { message: '' }
+const TextField = withStyles({
+  root: {
+    flex: 1,
+    marginRight: 20,
+    '& label.Mui-focused': {
+      color: teal[100],
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: teal[100],
+    },
+  },
+})(TextFieldBase);
 
-  reset = () => this.setState({ message: '' })
+const IconButton = withStyles({
+  root: {
+    '&:hover': {
+      color: teal[100],
+    },
+  },
+})(IconButtonBase);
 
-  handleChange = (event, message) => this.setState({ message })
+export default function Actions({ send }) {
+  const classes = useStyles();
+  const [message, setMessage] = useState('');
 
-  handleKeyStrokes = ({ key, ctrlKey }) => {
+  const reset = () => setMessage('');
+
+  const handleChange = ({ target }) => setMessage(target.value);
+
+  const handleKeyStrokes = ({ key, ctrlKey }) => {
     switch (key) {
       case 'Enter':
-        if (ctrlKey) this.send()
-        break
+        if (ctrlKey) _send();
+        break;
       // TODO: Add emoticons
-      default: break
+      default:
+        break;
     }
-  }
+  };
 
   // TODO: /!\ escape dangerous characters !
-  send = () => {
-    if (!this.state.message.length) return
-    this.props.send(this.state.message)
-    this.reset()
-  }
+  const _send = () => {
+    if (!message.length) return;
+    send(message);
+    reset();
+  };
 
-  render () {
-    return (
-      <section style={{ display: 'flex', alignItems: 'center' }}>
+  return (
+    <section className={classes.main}>
+      <TextField
+        name="Textfield"
+        label="Message"
+        multiline
+        rowsMax={3}
+        value={message}
+        onChange={handleChange}
+        onKeyDown={handleKeyStrokes}
+      />
 
-        <TextField
-          name='Textfield'
-          floatingLabelText='Message'
-          multiLine
-          rows={3}
-          rowsMax={3}
-          value={this.state.message}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyStrokes}
-          floatingLabelFocusStyle={{ color: teal100 }}
-          underlineFocusStyle={{ borderColor: teal100 }}
-          style={{ flex: 1, marginRight: 20 }}
-        />
-
-        <IconButton
-          tooltip={<span>Envoyer<br/>(CTRL + ENTER)</span>}
-          onTouchTap={this.send}
-          hoveredStyle={{ backgroundColor: teal100 }}
-        >
-          <SendSVG />
+      <Tooltip
+        title={
+          <span>
+            Envoyer
+            <br />
+            (CTRL + ENTER)
+          </span>
+        }
+      >
+        <IconButton onClick={_send}>
+          <SendIcon />
         </IconButton>
-
-      </section>
-    )
-  }
+      </Tooltip>
+    </section>
+  );
 }
-
-export default Actions

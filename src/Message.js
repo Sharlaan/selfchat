@@ -1,30 +1,31 @@
-import React, { PropTypes } from 'react'
-import ListItem from 'material-ui/List/ListItem'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+
+const useStyles = makeStyles({
+  aside: { display: 'flex', justifyContent: 'space-between', marginBottom: 5 },
+  from: { fontWeight: 'bold' },
+  date: { fontSize: 10 },
+  content: { margin: 0, whiteSpace: 'pre-line', wordWrap: 'break-word' },
+});
 
 // TODO: edit message in App.js
-function Message ({ from, date, content, editMessage }) {
+export default function Message({ from, date, content, editMessage }) {
+  const classes = useStyles();
   return (
-    <ListItem
-      primaryText={
-        <article>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-            <span style={{ fontWeight: 'bold' }}>{from}</span>
-            <span style={{ fontSize: 10 }}>{date}</span>
-          </div>
-          <pre style={{ margin: 0, whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
-            {content}
-          </pre>
-        </article>}
-      onTouchTap={editMessage}
-    />
-  )
+    <ListItem button onClick={editMessage}>
+      <ListItemText
+        primary={
+          <article>
+            <aside className={classes.aside}>
+              <span className={classes.from}>{from}</span>
+              <span className={classes.date}>{date}</span>
+            </aside>
+            <pre className={classes.content}>{content}</pre>
+          </article>
+        }
+      />
+    </ListItem>
+  );
 }
-
-Message.propTypes = {
-  from: PropTypes.string,
-  date: PropTypes.string,
-  content: PropTypes.string,
-  editMessage: PropTypes.func
-}
-
-export default Message

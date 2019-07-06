@@ -1,31 +1,24 @@
-import React, { Component } from 'react'
-import logo from './logo.svg'
-import Chat from './Chat'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
+import Chat from './Chat';
+import logo from './logo.svg';
 
-class App extends Component {
-  state = { messages: [] }
+export default function App() {
+  const [messages, setMessages] = useState([]);
 
-  send = message => this.setState({ messages: this.state.messages.concat(message) })
+  const send = (newMessage) => setMessages(messages.concat(newMessage));
 
-  render () {
-    const { messages } = this.state
-    return (
-      <div className='App'>
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h2>Welcome to SelfChat</h2>
+      </header>
 
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <h2>Welcome to SelfChat</h2>
-        </header>
-
-        <section className='App-body'>
-          <Chat title='Chat A' send={this.send} messages={messages} />
-          <Chat title='Chat B' send={this.send} messages={messages} />
-        </section>
-
-      </div>
-    )
-  }
+      <section className="App-body">
+        <Chat title="Chat A" send={send} messages={messages} />
+        <Chat title="Chat B" send={send} messages={messages} />
+      </section>
+    </div>
+  );
 }
-
-export default App
